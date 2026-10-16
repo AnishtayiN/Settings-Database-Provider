@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Settings Database Provider</string>
+
+    <string name="bridge_perm_desc">به اپ اجازه می‌دهد از طریق پل به دیتابیس تنظیمات سیستم دسترسی داشته باشد</string>
+</resources>
