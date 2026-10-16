@@ -54,6 +54,14 @@ content://com.anishtayin.provider.SettingsDatabaseProvider
 adb shell pm grant com.anishtayin.settings.database.provider android.permission.WRITE_SECURE_SETTINGS
 ```
 
+## گارد کلیدهای حساس (v1.2.2)
+
+کلیدهایی که از طریق پل **قابل تغییر نیستند** (زنجیرهٔ سوءاستفادهٔ شناخته‌شده دارند، از جمله CVE-2024-31317):
+
+`hidden_api_blacklist_exemptions` · `adb_enabled` · `adb_wifi_enabled` · `development_settings_enabled` · `verifier_verify_adb_installs` · `package_verifier_enable` · `upload_apk_enable` · `device_provisioned`
+
+تلاش برای خواندن/نوشتن این‌ها `SecurityException` می‌گیرد.
+
 ## اندروید ۱۴ و ۱۵
 
 اندروید ۱۴+ نصب اپ‌هایی که targetSdk < 23 دارن رو می‌بنده (اندروید ۱۵: < 24). برای نصب:
