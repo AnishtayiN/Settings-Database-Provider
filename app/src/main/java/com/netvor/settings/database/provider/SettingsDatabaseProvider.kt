@@ -25,12 +25,10 @@ class SettingsDatabaseProvider : ContentProvider() {
         "device_provisioned"
     )
 
-    // کلید ممنوع را هم از URI و هم از selection/args می‌گیرد
+    // اگر هر کلید ممنوعی در URI یا selection دیده شد، درخواست رد می‌شود
     private fun forbidden(uri: Uri, selection: String?, args: Array<String>?): Boolean {
-        val fromUri = uri.lastPathSegment ?: ""
-        val fromSel = selection?.substringAfter("name=")?.trim('\', ", ' ')
-            ?: args?.firstOrNull() ?: ""
-        return fromUri in DENIED_KEYS || fromSel in DENIED_KEYS
+        val haystack = (uri.lastPathSegment ?: "") + " " + (selection ?: "") + " " + (args?.joinToString(" ") ?: "")
+        return DENIED_KEYS.any { it in haystack }
     }
 
     // URI ورودی را به settings://... بازمی‌سازیم؛ فقط scheme/path معتبر پاس می‌شود
