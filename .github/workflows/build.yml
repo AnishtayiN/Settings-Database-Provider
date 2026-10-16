@@ -9,9 +9,6 @@ on:
         description: 'Release version tag (e.g. v1.2)'
         required: false
         default: ''
-  workflow_run:
-    workflows: ["Build APK"]
-    types: [completed]
 
 permissions:
   contents: write
