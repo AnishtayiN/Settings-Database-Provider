@@ -32,6 +32,28 @@ adb shell pm grant com.netvor.settings.database.provider android.permission.WRIT
 pm grant com.netvor.settings.database.provider android.permission.WRITE_SECURE_SETTINGS
 ```
 
+## نصب کنار نسخهٔ اصلی (هم‌زمان)
+
+این نسخه **applicationId جدا** دارد (`com.anishtayin.settings.database.provider`) و **authority جدا** (`com.anishtayin.provider.SettingsDatabaseProvider`) — یعنی بدون حذف نسخهٔ اصلی gamemn02 می‌توانی هر دو را هم‌زمان نصب داشته باشی.
+
+اگر ابزاری (مثل Settings Database Editor) از نسخهٔ اصلی استفاده می‌کرد و می‌خواهی از این نسخه استفاده کند، در تنظیمات ابزار آدرس provider را عوض کن به:
+
+```
+content://com.anishtayin.provider.SettingsDatabaseProvider
+```
+
+و این پرمیشن را در مانیفست ابزار declare کن (اگر خودت اپ را می‌سازی):
+
+```xml
+<uses-permission android:name="com.anishtayin.settings.database.provider.permission.BRIDGE" />
+```
+
+دستور grant برای این نسخه:
+
+```
+adb shell pm grant com.anishtayin.settings.database.provider android.permission.WRITE_SECURE_SETTINGS
+```
+
 ## اندروید ۱۴ و ۱۵
 
 اندروید ۱۴+ نصب اپ‌هایی که targetSdk < 23 دارن رو می‌بنده (اندروید ۱۵: < 24). برای نصب:

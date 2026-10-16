@@ -8,13 +8,13 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.netvor.settings.database.provider"
+        applicationId "com.anishtayin.settings.database.provider"
         minSdk 21
         // targetSdk عمداً 22 می‌ماند؛ کل کارکرد اپ به همین وابسته است
         //noinspection ExpiredTargetSdkVersion
         targetSdk 22
-        versionCode 3
-        versionName "1.2"
+        versionCode 4
+        versionName "1.2.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }

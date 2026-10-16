@@ -12,7 +12,7 @@
     <!-- پرمیشن سطح normal: هر اپی که بخواهد از پل استفاده کند باید declare کند؛
          بقیه اپ‌ها بدون اطلاع به دیتابیس settings دسترسی نمی‌گیرند -->
     <permission
-        android:name="com.netvor.settings.database.provider.permission.BRIDGE"
+        android:name="com.anishtayin.settings.database.provider.permission.BRIDGE"
         android:protectionLevel="normal"
         android:label="Settings Database Bridge"
         android:description="@string/bridge_perm_desc" />
@@ -24,11 +24,11 @@
         android:roundIcon="@mipmap/ic_launcher_round">
         <provider
             android:name=".SettingsDatabaseProvider"
-            android:authorities="com.netvor.provider.SettingsDatabaseProvider"
+            android:authorities="com.anishtayin.provider.SettingsDatabaseProvider"
             android:enabled="true"
             android:exported="true"
-            android:readPermission="com.netvor.settings.database.provider.permission.BRIDGE"
-            android:writePermission="com.netvor.settings.database.provider.permission.BRIDGE"
+            android:readPermission="com.anishtayin.settings.database.provider.permission.BRIDGE"
+            android:writePermission="com.anishtayin.settings.database.provider.permission.BRIDGE"
             tools:ignore="ExportedContentProvider" />
     </application>
 
