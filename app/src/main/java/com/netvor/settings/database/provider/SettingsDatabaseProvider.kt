@@ -28,7 +28,7 @@ class SettingsDatabaseProvider : ContentProvider() {
     // کلید ممنوع را هم از URI و هم از selection/args می‌گیرد
     private fun forbidden(uri: Uri, selection: String?, args: Array<String>?): Boolean {
         val fromUri = uri.lastPathSegment ?: ""
-        val fromSel = selection?.substringAfter("name=")?.trim(''', '"', ' ')
+        val fromSel = selection?.substringAfter("name=")?.trim('\', ", ' ')
             ?: args?.firstOrNull() ?: ""
         return fromUri in DENIED_KEYS || fromSel in DENIED_KEYS
     }
