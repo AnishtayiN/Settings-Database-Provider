@@ -1,4 +1,4 @@
-name: Build APK
+name: Build APK (signed)
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Release version tag (e.g. v1.2)'
+        description: 'Release tag (e.g. v1.2.2)'
         required: false
         default: ''
 
@@ -25,26 +25,40 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v3
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
 
-      - name: Build release APK (unsigned)
+      - name: Build release APK
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease --no-daemon
 
-      - name: Upload artifact
+      - name: Sign APK
+        env:
+          KS_B64: ${{ secrets.KS_B64 }}
+          KS_PASS: ${{ secrets.KS_PASS }}
+          KS_ALIAS: ${{ secrets.KS_ALIAS }}
+          KS_KEY_PASS: ${{ secrets.KS_KEY_PASS }}
+        run: |
+          echo "$KS_B64" | base64 -d > release.keystore
+          BT=$(ls -d $ANDROID_HOME/build-tools/* | sort -V | tail -1)
+          $BT/zipalign -v -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
+          $BT/apksigner sign --ks release.keystore --ks-key-alias "$KS_ALIAS" --ks-pass pass:"$KS_PASS" --key-pass pass:"$KS_KEY_PASS" --out settings-database-provider-signed.apk app-release-aligned.apk
+          $BT/apksigner verify --print-certs settings-database-provider-signed.apk
+          rm release.keystore
+
+      - name: Upload artifact (signed)
         uses: actions/upload-artifact@v4
         with:
-          name: sdp-unsigned
-          path: app/build/outputs/apk/release/app-release-unsigned.apk
+          name: sdp-signed
+          path: settings-database-provider-signed.apk
 
       - name: Create release
         if: github.event_name == 'workflow_dispatch'
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.event.inputs.version || 'v1.2' }}
-          name: ${{ github.event.inputs.version || 'v1.2' }}
-          files: app/build/outputs/apk/release/app-release-unsigned.apk
+          tag_name: ${{ github.event.inputs.version || 'v1.2.2' }}
+          name: ${{ github.event.inputs.version || 'v1.2.2' }}
+          files: settings-database-provider-signed.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
